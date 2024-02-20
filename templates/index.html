@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ma liste de tache</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <h1>Créer une tâche</h1>
+    <form action="/tasks" method="post">
+        <input type="text" name="task" placeholder="Nouvelle tâche">
+        <button type="submit">Créer une tâche</button>
+    </form>
+
+    <h1>Liste des tâches</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Tâche</th>
+                <th>Nouvelle tache</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for task in tasks %}
+            <tr>
+                <td>{{ task.id }}</td>
+                <td>{{ task.task }}</td>
+                <td>
+                    <form action="/edit_task/{{ task.id }}" method="post">
+                        <input type="hidden" name="_method" value="PUT">
+                        <input type="text" name="new_task">
+                        <button style="color: white; background-color: green;" type="submit">Modifier</button>
+                    </form>
+                </td>
+                <td>
+                    <form action="/del_task/{{ task.id }}" method="post">
+                        <input type="hidden" name="_method" value="DELETE">
+                        <button style="color: white; background-color: red;" type="submit">Supprimer</button>
+                    </form>
+                </td>
+
+                <td>
+                    <form action="/edit_patch/{{ task.id }}" method="post">
+                        <input type="hidden" name="_method" value="PATCH">
+                        <input type="text" name="task_patch">
+                        <button style="color: white; background-color: blue;" type="submit">Modification partielle</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+  
+
+
+</body>
+</html>
